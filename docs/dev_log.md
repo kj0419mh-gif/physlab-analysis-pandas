@@ -1,16 +1,17 @@
 # 개발 일지
 
-형식: 날짜 / 한 것 / 처음 해본 것 / 배운 것 / 막힌 것과 해결 / 다음
-
 ---
 
 ## 2026-09-15 (1일차) — 판 깔기(시작)
 
 ### 한 것
-- GitHub 레포 `physlab-analysis-pandas` 생성 (Public, MIT, Python .gitignore)
-- Anaconda Prompt에서 `git clone`으로 내 컴퓨터(문서 폴더)에 복사
+- GitHub 레포 `physlab-analysis-pandas` 생성    
+  (Public, MIT, Python .gitignore)
+- Anaconda Prompt에서 `git clone`으로 내 컴퓨터
+  (문서 폴더)에 복사
 - VS Code로 프로젝트 폴더 열기
-- 폴더 구조 생성: data/raw, data/meta, notebooks, src/physlab, tests, figures, legacy, docs
+- 폴더 구조 생성: data/raw, data/meta, notebooks, 
+  src/physlab, tests, figures, legacy, docs
 - 빈 폴더마다 `.gitkeep`, src/physlab에 `__init__.py`
 - v0 코드(AI 생성 Streamlit 앱, 약 2,140줄)를 `legacy/app_v0.py`로 보관
 - README.md 초안 작성
