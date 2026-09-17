@@ -91,6 +91,47 @@
   : write() 함수 사용, 디스크립터.write()
     라인바꾸기->\n
 
-## 2026-9-
+## 2026-9-17
 
 ### 배운것
+- csv파일 읽기
+  1. 파일읽기는 마찬가지로 open함수 사용
+  2. 파이썬 csv 라이브러리 이용 
+
+- csv.reader(오픈한 파일 디스크립터, delimiter=',')
+  데이터를 list로 변환하여 활용할 수 있음
+
+- csv파일 쓰기
+  1. open(디스크립터, 'w', encoding='utf-8-sig',   
+     newline='')
+     -> newline은 빈 라인 추가 방지용
+  2. csv.reader 대신, csv.writer 함수 사용
+    * 사전타입으로 파일쓰기 
+      = csv.writer 함수 대신에, csv.DictWriter 함수 
+        사용
+        field 이름 선언 후, 데이터 넣기
+      (사전타입으로 읽기도 가능 = csv.Dictreader) 
+
+- XML 파일 포멧
+  (요즘은 JSON을 쓰므로 자세히 알필욘X)
+  기본구조 : <태그 속성="속성값">내용</태그>   
+            태그로 열고 내용을 적고 태그로 닫음
+            태그와 태그 사이에는 태그 추가 작성 가능
+
+- XML 파일 읽기
+  1. open() 함수로 xml 데이터 읽기
+  data_file = open('users.xml', 'r', 
+  encoding='utf-8-sig')
+
+  2. xml 데이터 파싱하기
+  soup = BeautifulSoup(data_file, 'xml') 
+
+  3. select() 로 원하는 데이터 태그 선택하기
+  users = soup.select('user')                     
+
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(xml파일디스크립터, 'xml')
+  soup.select(원하는 데이터 태그)
+
+  4. 리스트이므로 for 문으로 아이템 추출
+     각 아이템.text 로 원하는 데이터 출력
