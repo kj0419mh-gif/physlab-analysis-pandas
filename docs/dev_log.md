@@ -1,7 +1,6 @@
 # 개발 일지
 
----
-
+--------------------------------------------------------------------------------------
 ## 2026-09-15 (1일차) — 판 깔기(시작)
 
 ### 한 것
@@ -17,7 +16,6 @@
 - README.md 초안 작성
 - 첫 커밋 + push 성공 (커밋 2개)
 
-### 처음 해본 것
 - 터미널(Anaconda Prompt) 사용: cd, dir, git --version, git clone
 - git / GitHub: clone, add(+), commit, push(동기화)
 - VS Code: 폴더 열기, 탐색기에서 파일·폴더 생성, 소스 제어 탭
@@ -37,22 +35,10 @@
 - 커밋 = 스냅샷 + 메시지. 메시지는 "수정" 말고 "무엇을 했는지"
 - 커밋 리듬: 작업 하나 → Ctrl+S → + → 메시지 → 커밋 → 동기화
 
-### 막힌 것과 해결
-- Jupyter 셀에 conda 명령 입력 → SyntaxError → 터미널에 입력해야 함
-- 경로 없음 문구→ `%USERPROFILE%` 사용
-- git clone "not found" → GitHub에 레포 미생성 → 레포 먼저 만들고 재시도
-- `code .` 인식 안 됨 → VS Code 메뉴 파일→폴더 열기로 대체
-- VS Code에서 `.git` 폴더를 열어버림 → 상위 폴더 다시 열기
-
 ### v0에 대한 판단
 - 2,140줄 중 실제 분석 코드는 약 120줄, 나머지는 PDF 파서·교과서 텍스트·AI 채팅·UI
 - 코드 의미를 전혀 모름 → 재사용하지 않음, before 증거 + 독해력 측정기로만 보관
-
-### 다음
-- .gitignore 보강, conda env physlab, requirements.txt, 00_setup_check.ipynb
-- docs/why_v0_failed.md, docs/ai_rules.md
-- 주말: 과거 실험 보고서 → 첫 CSV(세로형) + meta
-
+-------------------------------------------------------------------------------------
 ## 2026-9-16
 
 ### 한것
@@ -90,7 +76,7 @@
 - 파일쓰기
   : write() 함수 사용, 디스크립터.write()
     라인바꾸기->\n
-
+-------------------------------------------------------------------------------------
 ## 2026-9-17
 
 ### 배운것
@@ -135,3 +121,68 @@
 
   4. 리스트이므로 for 문으로 아이템 추출
      각 아이템.text 로 원하는 데이터 출력
+-------------------------------------------------------------------------------------
+## 2026-9-17
+
+### 배운것
+1. JSON 데이터 포멧
+  - json.loads() 함수로 문자열로된 json 데이터를 사전처럼 다룰 수 있음
+  - json.dumps() 함수로 파이썬 사전 데이터를 JSON 문자열 데이터로 변환할 수 있음
+     (indent= 로 들여쓰기해서 보기 편하게 할 수 있음)
+  - json.dump() 함수로 파이썬 사전 데이터를 파일로 쓸 수 있음
+  - json.load() 함수로 파일로된 json 데이터를 사전처럼 다룰 수 있음
+
+2. pandas 라이브러리 이해(C R U D)
+  - raw data: 아직 데이터 분석을 위해 정제되지 않은 기본 데이터를 의미
+     -> 데이터 전처리가 필요
+  - Series
+    : 1차원 데이터, 열이 1개 / index = 행의 레이블(0부터 시작, 지정가능)
+
+    * 읽고 수정하기
+      : seriesdata.index(읽기) / seriesdata.index = (변수명) (수정)
+        print (seriesdata['변수명'], seriesdata.iloc[0]) (특정데이터 지정)
+        del seriesdata['변수명'] (특정데이터 삭제)
+    * 데이터 타입
+      : object(문자열), int64(정수), float64(부동소숫점)
+        bool(True 또는 False 값을 가지는 boolean)
+        datetime64 (날짜/시간), timedelta[ns] (두 datatime64 간의 차) 
+      : 데이터 타입 변경: Series.astype(변경할 타입)
+    
+  - Dataframe
+    : 2차원 데이터, 열이 여러개(serise가 여러개 합쳐진 모습)
+
+    * 생성하기 
+      : df = pd.DataFrame({
+        "key1": [list],
+        "key2": [list],
+        })
+      + index를 지정해줄수도 있음.(index = [list])
+
+    * 데이터프레임은 index, columns, values 
+      df.index, df.columns, df.values
+
+    * 인덱스로 특정 컬럼 선택하기: df = df.set_index('변수명')
+      인덱스 이름: df.index.name = (변경도 가능)
+    * 인덱스 데이터를 컬럼으로 변경하기: df = df.reset_index('변수명')
+
+    * 데이터프레임 데이터 접근하기
+        데이터프레임.loc : index 를 통해서 값을 찾음
+        데이터프레임.iloc : 인덱스 번호를 통해서 값을 찾음 (0부터 시작)  
+       
+    * dataframe 컬럼 추가 : df['변수명'] = [변수]
+      dataframe 컬럼 삭제 : del df['변수명']
+
+    * 원본 데이터는 놔두고, 복사해서 데이터 처리를 하는 경우가 많음
+      df2 = df[['변수1', '변수2']].copy()
+ 
+### 한것
+1. 엑셀 측정 데이터를 세로형 CSV 파일(data/electron_charge_practice.csv)로 변환
+  (변환은 ai에게 시켜도 무방, 어차피 csv파일을 다루기 때문)
+
+2. csv 파일 다루기 연습
+  - Jupyter Notebook 파일 생성 (notebooks/01_electron_charge.ipynb)
+  - Pandas pd.read_csv()로 데이터프레임(df) 로드
+  - 파이썬 함수를 만들어 표 전체의 자기장 및 비전하 일괄 계산 완료
+  - 물리 계산 로직만 따로 빼서 src/physlab/physics_calc.py 파일로 모듈화
+-------------------------------------------------------------------------------------
+## 2026-9- 
