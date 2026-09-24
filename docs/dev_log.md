@@ -372,4 +372,46 @@
       기존 데이터프레임 컬럼 값을 기반으로 신규 컬럼 추가하기
         apply() 함수를 사용
 
+### 한것
+- 지금까지 한 모든 전처리 과정 복습
+  한글자도 못쓰겠음! 일단은 파일을 살펴보는것부터 시작
+
+  <데이터 전처리1: csv파일 정리하기(필요한 부분만 남겨두기)>
+  doc = pd.read_csv(파일경로 + "csv파일 명")
+  print(doc.columns)
+  doc.head()
+
+  원하는 칼럼만 남겨두고 모두 오리기 doc = doc[['칼럼1', '칼럼2']]
+  데이터가 누락(NaN)된 행 지우기 doc = doc.dropna(subset=['칼럼'])
+  비정상 데이터 삭제 doc['기준칼럼'] = doc.apply(함수, axis=1)
+  데이터 값 정수 변환 doc = doc.astype({'Deaths': 'int64'})
+  중복데이터 묶기 doc = doc.groupby('기준칼럼').sum() -> 자동으로 기준칼럼이 인덱스화
+  칼럼수정하기 date_column = filename.split(".")[0].lstrip('0').replace('-', '/')
+              doc.columns = [date_column]
+  모두 묶어 함수로 만들기
+
+  <데이터 전처리2: 함수를 모든파일에 적용시키기>
+  결측값은 0으로 채워주기 doc.fillna(0)
+  한 리스트에 담기 file_list = os.listdir(PATH)
+  파일 검사하기 for file in file_list:
+                if file.split(".")[-1] == 'csv':
+                csv_list.append(file)
+  파일 정렬하기 csv_list.sort(key=lambda x: datetime.strptime(x, '%m-%d-%Y.csv'))
+  for문 사용하기 
+      first_doc = True
+
+      for file in csv_list:
+        doc = create_dataframe(file)
+    
+        if first_doc == True:
+          final_doc = doc
+          first_doc = False
+        else:
+          final_doc = pd.merge(final_doc, doc, how='outer', left_index=True,  right_index=True)
+
+      final_doc = final_doc.fillna(0)
+
+  결과물을 파일로 내보내기
+  final_doc.to_csv('파일명', encoding='utf-8-sig')
+
 -------------------------------------------------------------------------------------
