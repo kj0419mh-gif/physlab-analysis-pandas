@@ -415,3 +415,67 @@
   final_doc.to_csv('파일명', encoding='utf-8-sig')
 
 -------------------------------------------------------------------------------------
+## 2026-9-25
+
+### 배운것
+- EDA를 위한 데이터 시각화
+  최신 시각화 라이브러리: plotly
+  -> 데이터 분석시, 가볍게 데이터 확인시는 Plotly Express
+  -> 디테일하게 시각화할 시에는 Plotly Graph Objects를 사용하는 것이 좋음
+
+  Plotly Express 기본 코드 패턴
+    import plotly.express as px
+
+    fig = px.그래프종류(
+        데이터프레임,
+        x='x축열이름',
+        y='y축열이름',
+        title='그래프제목'
+    )
+
+    fig.show() # 그래프를 화면에 표시
+
+  1. plotiy express 주요 그래프 종류와 코드 패턴
+    1) 산점도(scatter)
+        fig = px.scatter(df, x='x열', y='y열', color='색상기준열')
+    2) 선 그래프(line)
+        fig = px.line(df, x='x열', y='y열')
+    3) 막대 그래프(bar)
+        fig = px.bar(df, x='범주열', y='값열')
+    4) 히스토그램(histogram)
+        fig = px.histogram(df, x='데이터열', nbins=구간수)
+    5) 상자 그림(box)
+        fig = px.box(df, y=['비교할열들']) 
+
+  3. 그래프 세부 요소 변경
+    fig.update_layout(): 전체 레이아웃(제목, 범례, 여백 등)을 수정
+    fig.update_xaxes(): x축의 속성(제목, 글꼴, 눈금 등)을 수정
+    fig.update_yaxes(): y축의 속성(제목, 글꼴, 눈금 등)을 수정    
+
+    * 범례 (Legend) 변경
+      범례의 위치와 스타일을 조정하여, 그래프 영역 바깥에 배치할 수 있음
+      x: 범례의 가로 위치
+      y: 범례의 세로 위치
+        xanchor: 범례의 x축 기준 위치 ('left', 'center', 'right' 중 선택).
+        yanchor: 범례의 y축 기준 위치 ('top', 'middle', 'bottom' 중 선택).
+      bordercolor와 borderwidth: 범례 테두리 색상과 두께를 설정
+    
+    * x축 (X-Axis) 설정 변경
+      fig.update_xaxes() 메서드를 사용하면 x축의 여러 속성(제목, 글꼴, 눈금 각도 등)을 업데이트 가능
+    * y축 (Y-Axis) 설정 변경
+      fig.update_yaxes() 메서드를 사용하면 y축의 여러 속성(제목, 글꼴, 눈금 라벨 등)을 업데이트 가능
+
+  2. plotly graph object(import plotly.graph_objects as go)
+
+     go.Figure() 로 figure(그래프) 객체를 만들어주고, 화면에 보여주는 방식으로 실행   
+      fig = go.Figure()
+      fig.add_trace(
+        go.그래프타입(
+            x=데이터_x,
+            y=데이터_y,
+        )
+      )
+      fig.update_layout(
+        title="그래프 제목",
+      )
+      fig.show()
