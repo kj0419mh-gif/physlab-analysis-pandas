@@ -76,6 +76,7 @@
 - 파일쓰기
   : write() 함수 사용, 디스크립터.write()
     라인바꾸기->\n
+
 -------------------------------------------------------------------------------------
 ## 2026-9-17
 
@@ -121,6 +122,7 @@
 
   4. 리스트이므로 for 문으로 아이템 추출
      각 아이템.text 로 원하는 데이터 출력
+
 -------------------------------------------------------------------------------------
 ## 2026-9-17
 
@@ -184,6 +186,7 @@
   - Pandas pd.read_csv()로 데이터프레임(df) 로드
   - 파이썬 함수를 만들어 표 전체의 자기장 및 비전하 일괄 계산 완료
   - 물리 계산 로직만 따로 빼서 src/physlab/physics_calc.py 파일로 모듈화
+
 -------------------------------------------------------------------------------------
 ## 2026-9-20
 
@@ -479,3 +482,213 @@
         title="그래프 제목",
       )
       fig.show()
+
+-------------------------------------------------------------------------------------
+## 2026-9-26
+
+### 배운것
+- plotly graph object(여러 그래프를 동시에 표현 가능)
+
+  1. 주요 옵션
+    mode = 데이터 포인트를 어떤 형태로 표시할지 결정
+      'markers': 점(marker)만 표시합니다.
+      'lines': 데이터 포인트들을 선(line)으로 연결합니다.
+      'lines+markers': 점과 선을 함께 표시합니다.
+
+    marker = 산점도에서 사용되는 개별 데이터 포인트(마커)의 스타일을 지정
+      size: 마커의 크기를 지정합니다.
+      color: 마커의 색상을 지정합니다.
+      opacity: 마커의 투명도를 지정합니다. (0은 완전 투명, 1은 불투명)
+
+    name = 해당 트레이스(데이터 시리즈)의 이름을 지정하여 범례에 표시
+    (showlegend=True: 범례 표시)
+
+  2. 그래프 세부 요소 변경
+    update_layout(), update_xaxes(), update_yaxes() 등을 통해 세부 설정을 변경할 수 있음
+    
+    * 주요 옵션 설명
+      <그래프 제목 (Title) 변경>
+        x: x축 데이터 값을 지정
+        y: y축 데이터 값을 지정
+        mode: 데이터 포인트의 표시 방식을 설정
+          'markers': 점으로만 표시
+          'lines': 선으로만 표시
+          'lines+markers': 선과 점 모두 표시
+        name: 데이터 시리즈의 이름을 지정하며, 범례 및 그룹 레이블로 사용     
+        title.text: 그래프의 제목 텍스트를 설정
+        title.font: 제목 텍스트의 폰트 스타일을 지정
+          size: 글자 크기 (예: 24)
+          color: 글자 색상 (예: 'darkblue')
+        title.x: 제목의 x축 위치를 설정하여 제목의 정렬을 결정
+
+      <범례 (Legend) 변경>
+        x: 산점도의 x축 데이터 (주요 옵션값: x_data 배열)
+        y: 산점도의 y축 데이터 (주요 옵션값: y_data 배열)
+        mode: 데이터 포인트의 표시 방식
+        name: 해당 Trace의 이름 (주요 옵션값: 예, f'범주 {cat}'; 범례에 표시되며 각 Trace를 구분하는 데 사용)
+        title: 그래프의 제목 설정 (주요 옵션값: "범례 위치 예제"; 텍스트를 지정하며, 폰트 및 위치 옵션과 함께 사용 가능)
+        title.text: 제목 텍스트
+        title.font: 제목 폰트 스타일 (예: {'size': 24, 'color': 'darkblue'}; 글자 크기와 색상 지정)
+        title.x: 제목의 x축 위치 (주요 옵션값: 0.5; 중앙 정렬)
+        legend: 범례의 위치 및 스타일 설정 (주요 옵션값: 딕셔너리 형태로 설정)
+          legend.title: 범례 제목 (주요 옵션값: "범례 제목")
+          legend.x: 범례의 x좌표 (주요 옵션값: 1.02; 그래프 오른쪽 외부 위치)
+          legend.y: 범례의 y좌표 (주요 옵션값: 1; 그래프 상단 위치)
+          legend.xanchor: 범례의 x축 정렬 기준 (주요 옵션값: "left"; x 좌표 기준 왼쪽 정렬)
+          legend.yanchor: 범례의 y축 정렬 기준 (주요 옵션값: "top"; y 좌표 기준 상단 정렬)
+          legend.bordercolor: 범례 테두리 색상 (주요 옵션값: "black")
+          legend.borderwidth: 범례 테두리 두께 (주요 옵션값: 1)
+
+- 탐색적 데이터 분석
+1. 데이터 분석을 위한 위치 추정과 범위 추정
+    feature 분석을 위한 기본 탐색
+      위치 추정: 방대한 데이터의 대푯값을 구해서, 해당 feature의 일종의 요약 정보 도출
+      (평균, 중앙값 등)
+      변이 추정: 방대한 데이터의 분포를 알아내어, 역시 해당 feature의 일종의 요약 정보 도출
+      (표준편차, 분산 등)
+
+    가볍게 꼭 들어봤어야 할 만한 사항들을 정리하기
+    복잡한 수치를 쓸 경우, 오히려 현업에서는 관련된 모든 사람들이 이해할 수 없게 되어, 커뮤니케이션에 문제가 됨
+    분석된 데이터의 결과는 개발자/데이터과학자들끼리 커뮤니케이션하는 경우보다, 마케팅/영업등 타직군과 커뮤니케이션하는 경우가 더 많기 때문
+
+   df.describe()로 확인하기
+
+2. 보다 빠른 분석을 위한 데이터 분류 이해
+    수치형 데이터
+      연속형(continuous) 데이터: 특정한 범위 안에 어떤 값(정수와 부동소숫점)이든 가질 수 있는 데이터
+      이산(discrete) 데이터: 횟수와 같은 정수만 가질 수 있는 데이터
+
+    범주형 데이터
+      명목형(nominal) 데이터: 카테고리, 타입, 항목등 데이터 분류를 위해 이미 정해진 값이 있는 데이터, 데이터가 가질 수 있는 값을 수준(levels) 라고 부름
+      순서형(ordinal) 데이터: 이미 정해진 값 사이의 순서 관계가 있는 데이터
+
+3. 수치형 데이터의 요약(탐색)
+    다섯 수치 요약 (5 number summary) 확인하기
+    최소값(minimum), 제1사분위수, 중간값(mediam,제2사분위수), 제3사분위수, 최대값(maximum) 확인
+      분위수(quartile)
+        자료 크기 순서에 따른 위치값(경계값)
+      EDA 에서는 사분위수를 사용
+        Q1: 제1사분위수 (25%에 해당하는 값)
+        Q2: 제2사분위수 (50%에 해당하는 값, 중간값)
+        Q3: 제3사분위수 (75%에 해당하는 값)
+        Q4: 제4사분위수 (100%에 해당하는 값, 최대값) 
+
+    평균과 중간값
+      평균은 이상치 특잇값(outlier)에 큰 영향을 받음
+      EDA 에서는 특잇값에 큰 영향을 받지 않는 중간값을 선호   
+
+    * 상자 그래프(boxplot)을 사용하여 5 number summary 확인  
+      히스토그램을 사용하여 수치형 데이터의 분포를 확인
+
+4. 범주형 데이터의 요약(탐색)
+    수준별로 데이터 분류하기
+        df1 = df.groupby("").count()
+        df2 = df.groupby("").count() 
+
+    수준별로 데이터 갯수 세기 (count)
+      절대빈도: 절대 갯수, 상대빈도: 각 수준의 비율(%)
+        size : 사이즈 반환
+        count() : 데이터가 없는 경우를 뺀 사이즈 반환
+        unique(): 유일한 값만 반환
+        value_counts(): 데이터가 없는 경우를 제외하고, 각 값의 갯수를 반환
+
+    시각화하기 (빈도표, frequency table)
+      막대 그래프(px.bar)(절대 빈도), 원 그래프(px.pie)(상대 빈도)  
+
+5. 테이블 데이터와 시계열 데이터
+    테이블 데이터: 엑셀과 같이 행과 열로 나타낸 데이터
+      feature: 테이블의 각 열을 의미
+      record: 테이블의 각 행을 의미
+      index: 각 데이터 위치를 식별하기 위한 값
+    시계열 데이터: 일정 시간 간격으로 배치된 데이터 (시간에 종속된 데이터)
+
+    * 시계열 데이터 시각화를 위한 사전 준비
+      pd.date_range(start='2020-01-01', end='2020-12-31')
+      freq='3ME': 3개월
+      freq='D': 1일
+      periods=10: start와 end 사이 균등 시간 분할
+
+    * pandas Dataframe 작성 방법 
+        pd.DataFrame(data={컬럼이름:컬럼데이터리스트})
+        {컬럼이름:컬럼데이터리스트} 는 사전 데이터 형식
+        pd.DataFrame(data=리스트, columns=컬럼이름, index=인덱스데이터)
+
+    * 시계열 데이터는 주로 라인 그래프와 막대 그래프 사용
+    * 파이썬 컴프리헨션은 리스트, 딕셔너리, 세트 등 반복 가능한(iterable) 객체로부터   
+      새로운 시퀀스를 간결하게 생성할 수 있는 문법  
+      new_list = [expression for item in iterable if condition]
+        expression: 각 요소에 대해 수행할 연산 또는 변환.
+        item: iterable의 각 요소.
+        iterable: 순회 가능한 객체 (예: 리스트, 튜플, range 등).
+        if condition (선택적): 조건을 만족하는 경우에만 expression을 실행.
+    * strftime() 함수란
+        strftime() 함수는 Python의 datetime 객체를 원하는 형식의 문자열로 변환하는 메서드
+        날짜와 시간을 특정한 포맷(예: "년-월-일")으로 표현하고자 할 때 사용
+
+        from datetime import datetime
+        now = datetime.now()
+        formatted_date = now.strftime('%Y-%m-%d')
+
+6. 상관관계를 확인하기 위해 주로 사용되는 그래프 타입
+    feature 간의 연관 관계 분석
+    주요 그래프 타입: heatmap 그래프, 산점도(scatter) 그래프
+    corr(method=상관계수): 각 속성간 상관 관계 확인하기 
+    (피어슨 상관계수가 디폴트)(doc.corr(numeric_only=True))
+
+    * heatmap 그래프
+      1) plotly express
+      import plotly.express as px
+      fig_px = px.imshow(
+          doc2,
+          text_auto=True,               
+          aspect="auto",                 
+          title="Heatmap (Plotly Express)"
+      )
+      fig_px.show()
+
+      2) plotly graph object
+      import plotly.graph_objects as go
+
+      fig = go.Figure()
+
+      fig.add_trace(
+          go.Heatmap(
+              z=doc2.values,           
+              x=doc2.columns,           
+              y=doc2.index,              
+              colorscale='Viridis',      
+              colorbar=dict(
+                  title="Value"          
+              ),
+              text=doc2.values,          
+              texttemplate='%{z:.2f}',   
+              hovertemplate='X: %{x}<br>Y: %{y}<br>Value: %{z:.2f}<extra></extra>' 
+          )
+      )
+
+      fig.update_layout(title="Heatmap (Plotly Graph Objects)")
+      fig.show()
+
+- 종합 
+<탐색적 데이터 분석 (데이터 이해와 시각화 기법 추가)>
+  1. 데이터의 출처와 주제에 대해 이해
+  2. 데이터의 크기 확인
+  3. 데이터 구성 요소(feature)의 속성(특징) 확인
+      수치형 데이터일 경우에는 다음과 같이 5 number summary 와 + 평균(mean) 확인
+        - 최소값(minimum), 제1사분위수, 중간값(mediam)=제2사분위수, 제3사분위수, 최대값(maximum) + 평균(mean) 확인
+        - 특잇값(outlier) 확인 - 필요하면 boxplot 과 histogram 그려보기
+
+      범주형 데이터일 경우에는 각 수준별 갯수 세기
+        - 필요하면 절대 빈도(bar 그래프), 상대 빈도(원 그래프) 그려보기
+
+      시계열 데이터일 경우에는 필요하면 line 또는 bar 그래프 그리기
+
+      Feature 간 상관관계 분석이 필요할 경우에는 heatmap 또는 scatter 그래프 그리기
+
+(시각화 쪽은 더 많은 연습 필요할듯)
+(이론은 여기까지, 이제 강의를 통한 실전 연습, 개인연습)
+-------------------------------------------------------------------------------------
+## 2026-9-27
+
+### 한것 
+     
