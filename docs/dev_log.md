@@ -690,5 +690,15 @@
 -------------------------------------------------------------------------------------
 ## 2026-9-27
 
-### 한것 
-     
+### 배운것 
+- 그동안 배운 내용 복습
+  doc = pd.read_csv('00_data/olist_customers_dataset.csv', encoding='utf-8-sig')
+  doc.head()
+  doc.shape # 전체 record 수 확인
+  doc.info() # 데이터 정보 확인(열의 수 확인)
+  doc.columns # 열의 이름 리스트로 가져오기
+  doc.index # 인덱스 확인하기
+  doc.describe() # 5 number summary 확인
+  * .copy() 를 통해, 복사본을 만들어서 조작하여, 원본 데이터프레임은 보존 가능
+  doc2['dustomer_city'].value_counts() # customer_city 기준으로 행의 갯수를 확인
+  
