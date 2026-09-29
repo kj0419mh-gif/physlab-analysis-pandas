@@ -701,4 +701,34 @@
   doc.describe() # 5 number summary 확인
   * .copy() 를 통해, 복사본을 만들어서 조작하여, 원본 데이터프레임은 보존 가능
   doc2['dustomer_city'].value_counts() # customer_city 기준으로 행의 갯수를 확인
+
+-------------------------------------------------------------------------------------
+## 2026-9-29 
+
+### 배운것 
+- 데이터프레임.sort_values(by=컬럼명, ascending=False)
+  ascending=True: 오름차순 (디폴트)
+  ascending=False: 내림차순
+  시리즈.sort_values(ascending=True)
+  데이터프레임/시리즈.sort_index(ascending=True): 인덱스 기준 정렬
+  doc.isnull().sum() # 결측치 확인
+  시리즈.to_list() # 컬럼값을 리스트 타입으로 리턴
+  doc.drop_duplicates(subset='customer_city', keep='last') # 중복삭제, 마지막만 남김
+
+  pivot_table(데이터프레임, values=None, index=None, aggfunc='mean', fill_value=None, margins=False, margins_name='All')
+    values: 분석할 열 이름 리스트
+    index: 인덱스로 들어갈 키 열
+    aggfunc: 계산 방법, 간단히 {분석할열이름:계산방법} 으로 사전 형식으로 작성
+    주요 계산 방법: sum(합), mean(평균), median(중앙값), std(표준편차)
+    fill_value: 결측치 대체 값
+    margins: 모든 데이터의 총 분석 결과를 추가함 (예, 총 합)
+    margins_name: 모든 데이터의 총 분석 결과의 이름
+
+- 메서드 체이닝(Method Chaining)
+  1) 백슬래시(\) 사용: 각 줄 끝에 백슬래시를 붙여 "다음 줄도 이어진다"는 것을 명시
+  2) 괄호 사용:전체 표현식을 소괄호로 감싸면, 백슬래시 없이도 여러 줄에 걸쳐 코드 작성가능 
   
+-------------------------------------------------------------------------------------
+## 2026-9-30    
+
+### 배운것 
